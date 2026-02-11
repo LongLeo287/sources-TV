@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-02-11",
+  "contact_support": "LongLeo",
+  "global_settings": {
+    "tmdb_language": "vi-VN",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+  },
+  "sources": [
+    {
+      "id": "muse_vn",
+      "name": "Muse Việt Nam",
+      "type": "youtube",
+      "url": "https://www.youtube.com/MuseVietNam",
+      "api_endpoint": "https://www.googleapis.com/youtube/v3/playlists",
+      "priority": 1
+    },
+    {
+      "id": "animehay",
+      "name": "AnimeHay",
+      "type": "scraper_static",
+      "url": "https://animehay.bar/",
+      "selectors": {
+        "list_item": ".item",
+        "title": ".name",
+        "poster": "img",
+        "link": "a",
+        "video_regex": "(https?://[^\\s]+\\.m3u8)"
+      }
+    },
+    {
+      "id": "phimmoichill",
+      "name": "PhimMoiChill",
+      "type": "scraper_dynamic",
+      "url": "https://phimmoichill.now/",
+      "note": "Requires WebView Interceptor to bypass Cloudflare"
+    },
+    {
+      "id": "gogoanime",
+      "name": "GogoAnime (Global)",
+      "type": "scraper_static",
+      "url": "https://gogoanime.by/",
+      "selectors": {
+        "search_url": "https://gogoanime.by/search.html?keyword="
+      }
+    },
+    {
+      "id": "motchill",
+      "name": "MotchillZ",
+      "type": "scraper_dynamic",
+      "url": "https://motchillz.cx/",
+      "priority": 2
+    }
+  ],
+  "categories": [
+    {"id": "anime", "name": "Anime Mới", "source_ids": ["muse_vn", "animehay", "gogoanime"]},
+    {"id": "movie", "name": "Phim Lẻ", "source_ids": ["phimmoichill", "phimfit"]},
+    {"id": "trending", "name": "Xu Hướng", "source_ids": ["bilutv", "motchill"]}
+  ]
+}
