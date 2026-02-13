@@ -1,60 +1,163 @@
 {
-  "version": "1.0.0",
-  "last_updated": "2026-02-11",
-  "contact_support": "LongLeo",
-  "global_settings": {
-    "tmdb_language": "vi-VN",
-    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-  },
-  "sources": [
-    {
-      "id": "muse_vn",
-      "name": "Muse Việt Nam",
-      "type": "youtube",
-      "url": "https://www.youtube.com/MuseVietNam",
-      "api_endpoint": "https://www.googleapis.com/youtube/v3/playlists",
-      "priority": 1
+    "version": "1.2.0",
+    "last_updated": "2026-02-13",
+    "contact_support": "LongLeo",
+    "global_settings": {
+        "tmdb_language": "vi-VN",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     },
-    {
-      "id": "animehay",
-      "name": "AnimeHay",
-      "type": "scraper_static",
-      "url": "https://animehay.bar/",
-      "selectors": {
-        "list_item": ".item",
-        "title": ".name",
-        "poster": "img",
-        "link": "a",
-        "video_regex": "(https?://[^\\s]+\\.m3u8)"
-      }
-    },
-    {
-      "id": "phimmoichill",
-      "name": "PhimMoiChill",
-      "type": "scraper_dynamic",
-      "url": "https://phimmoichill.now/",
-      "note": "Requires WebView Interceptor to bypass Cloudflare"
-    },
-    {
-      "id": "gogoanime",
-      "name": "GogoAnime (Global)",
-      "type": "scraper_static",
-      "url": "https://gogoanime.by/",
-      "selectors": {
-        "search_url": "https://gogoanime.by/search.html?keyword="
-      }
-    },
-    {
-      "id": "motchill",
-      "name": "MotchillZ",
-      "type": "scraper_dynamic",
-      "url": "https://motchillz.cx/",
-      "priority": 2
-    }
-  ],
-  "categories": [
-    {"id": "anime", "name": "Anime Mới", "source_ids": ["muse_vn", "animehay", "gogoanime"]},
-    {"id": "movie", "name": "Phim Lẻ", "source_ids": ["phimmoichill", "phimfit"]},
-    {"id": "trending", "name": "Xu Hướng", "source_ids": ["bilutv", "motchill"]}
-  ]
+    "sources": [
+        {
+            "id": "muse_vn",
+            "name": "Muse Việt Nam",
+            "type": "youtube",
+            "url": "https://www.youtube.com/MuseVietNam",
+            "isEnabled": true,
+            "priority": 1
+        },
+        {
+            "id": "muse_collection",
+            "name": "Muse Anime Collection",
+            "type": "youtube",
+            "url": "https://www.youtube.com/@musevnanimecollection",
+            "isEnabled": true
+        },
+        {
+            "id": "pops_anime",
+            "name": "POPS Anime",
+            "type": "youtube",
+            "url": "https://www.youtube.com/@POPSAnime",
+            "isEnabled": true
+        },
+        {
+            "id": "anione",
+            "name": "Ani-One Vietnam",
+            "type": "youtube",
+            "url": "https://www.youtube.com/@AniOneVietnam",
+            "isEnabled": true
+        },
+        {
+            "id": "animehay",
+            "name": "AnimeHay",
+            "type": "scraper_dynamic",
+            "url": "https://animehay.bar/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.movie-item, .item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.name')?.innerText || e.querySelector('.title')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.getAttribute('data-original'); if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'AnimeHay' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "animevsub",
+            "name": "AnimeVietsub",
+            "type": "scraper_dynamic",
+            "url": "https://animevsub.eu.org/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.TPostMv').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.Title')?.innerText; var poster = e.querySelector('img')?.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'AnimeVietsub' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "gogoanime",
+            "name": "GogoAnime",
+            "type": "scraper_dynamic",
+            "url": "https://gogoanime.by/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.items li').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.name')?.innerText; var poster = e.querySelector('img')?.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'GogoAnime' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "9animetv",
+            "name": "9AnimeTV",
+            "type": "scraper_dynamic",
+            "url": "https://9animetv.to/home",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.film_list-wrap .flw-item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.film-name')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: '9AnimeTV' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "motchill",
+            "name": "MotchillZ",
+            "type": "scraper_dynamic",
+            "url": "https://motchillz.cx/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('div.item, article.item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.title')?.innerText || e.querySelector('h3')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'MotchillZ' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "phimmoichill",
+            "name": "PhimMoiChill",
+            "type": "scraper_dynamic",
+            "url": "https://phimmoichill.now/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('li.item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.title')?.innerText || e.querySelector('p')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'PhimMoiChill' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "phimfit",
+            "name": "PhimFit",
+            "type": "scraper_dynamic",
+            "url": "https://phimfit.com/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.movie-item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.movie-title')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'PhimFit' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "motphimc",
+            "name": "MotPhimC",
+            "type": "scraper_dynamic",
+            "url": "https://motphimc.fm/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.list-film .item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.title')?.innerText || e.querySelector('p')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'MotPhimC' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "bilutv",
+            "name": "BiluTV",
+            "type": "scraper_dynamic",
+            "url": "https://bilutv.cc/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.film-item, li.item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.title')?.innerText || e.querySelector('.name')?.innerText; var poster = e.querySelector('img')?.src || e.querySelector('img')?.dataset.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'BiluTV' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "a4vf",
+            "name": "A4VF",
+            "type": "scraper_dynamic",
+            "url": "https://a4vf.net/update/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.post-item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.post-title')?.innerText || e.querySelector('h3')?.innerText; var poster = e.querySelector('img')?.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'A4VF' }); }); return JSON.stringify(items); })();"
+        },
+        {
+            "id": "openib",
+            "name": "OpenIB",
+            "type": "scraper_dynamic",
+            "url": "https://openib.org/",
+            "isEnabled": true,
+            "script": "(function() { var items = []; document.querySelectorAll('.item').forEach(e => { var link = e.querySelector('a')?.href; var title = e.querySelector('.name')?.innerText; var poster = e.querySelector('img')?.src; if(link && title) items.push({ title: title.trim(), link: link, poster: poster || '', sourceName: 'OpenIB' }); }); return JSON.stringify(items); })();"
+        }
+    ],
+    "categories": [
+        {
+            "id": "youtube_anime",
+            "name": "Kênh Anime (YouTube)",
+            "source_ids": [
+                "muse_vn",
+                "muse_collection",
+                "pops_anime",
+                "anione"
+            ]
+        },
+        {
+            "id": "anime_web",
+            "name": "Web Anime",
+            "source_ids": [
+                "animehay",
+                "animevsub",
+                "gogoanime",
+                "9animetv"
+            ]
+        },
+        {
+            "id": "movie",
+            "name": "Phim Lẻ & Mới",
+            "source_ids": [
+                "phimmoichill",
+                "phimfit",
+                "motchill",
+                "motphimc",
+                "bilutv",
+                "a4vf",
+                "openib"
+            ]
+        }
+    ]
 }
